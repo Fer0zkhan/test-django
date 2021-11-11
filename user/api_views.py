@@ -7,8 +7,9 @@ from .serializers import *
 
 @api_view(['POST'])
 def user_register_api_view(request):
+    if request.user.is_authenticated:
+        return Response('User Already Login')
     if request.method == 'POST':
-        print(request.data)
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save(commit=False)
