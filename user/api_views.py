@@ -39,6 +39,7 @@ def user_login_api_view(request):
 
 
 @login_required(login_url='login-view')
+@api_view(['POST'])
 def update_user_api_view(request):
     user = request.user
     serializer = UserSerializer(instance=user)
@@ -49,3 +50,10 @@ def update_user_api_view(request):
             return Response(serializer.data, 'User Edit Successfully')
         else:
             return Response(serializer.errors, 'Some error occur')
+
+
+@api_view(['GET'])
+def get_all_user_api_view(request):
+    if request.method == 'GET':
+        user = User.objects.all()
+        return Response(user)
